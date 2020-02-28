@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.PostLoad;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -46,6 +47,13 @@ public class Departamento {
 	
 	@Transient
 	private double faturamentoAnual;
+	
+	//Criar um método que é executado automatimente após um select
+	@PostLoad
+	public void carregar() {
+		System.out.println("Método executado após o select..");
+		faturamentoAnual = faturamento * 12; 
+	}
 	
 	public Departamento() {
 		super();
