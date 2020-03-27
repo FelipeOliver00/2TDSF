@@ -4,4 +4,5 @@ import br.com.fiap.jpa.entity.Ator;
 
 public interface AtorDAO extends GenericDAO<Ator, Integer>{
 
+	
 }
