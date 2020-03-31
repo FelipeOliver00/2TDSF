@@ -1,6 +1,10 @@
 package br.com.fiap.jpa.teste;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -9,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +32,7 @@ class FilmeDAOTest {
 	
 	@BeforeAll //Método chamado antes de todos os testes
 	static void inicializar() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("oracle");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("teste");
 		EntityManager em = emf.createEntityManager();
 		dao = new FilmeDAOImpl(em);
 	}
