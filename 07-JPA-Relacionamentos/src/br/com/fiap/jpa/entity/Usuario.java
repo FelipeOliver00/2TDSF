@@ -1,16 +1,8 @@
 package br.com.fiap.jpa.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Table(name="TB_USUARIO")
@@ -29,10 +21,35 @@ public class Usuario {
 	@Column(name="ds_genero", nullable = false)
 	private Genero genero;
 	
-	//Mapeando o relacioamento com o login
-	@OneToOne
-	@JoinColumn(name = "cd_login", nullable = false)
+	//Mapear o relacionamento birecional (um-para-muitos)
+	//mappedBy -> "usuario" nome do atributo na classe Post que mapeia a FK
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST)
+	private List<Post> posts = new ArrayList<Post>();
+	
+	//Mapeando o relacionamento com o login
+	//cascade -> realiza as ações configuradas na relação
+	//fetch -> determina o momento que será carregada a relação
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "cd_login")
 	private Login login;
+	
+	//Método para adicionar post no usuário
+	public void addPost(Post post) {
+		post.setUsuario(this);
+		//adiciona o post na lista
+		posts.add(post);
+	}
+	
+	public Usuario(String nome, Genero genero, Login login) {
+		super();
+		this.nome = nome;
+		this.genero = genero;
+		this.login = login;
+	}
+
+	public Usuario() {
+		super();
+	}
 
 	public int getCodigo() {
 		return codigo;
@@ -64,6 +81,14 @@ public class Usuario {
 
 	public void setLogin(Login login) {
 		this.login = login;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 	
 }

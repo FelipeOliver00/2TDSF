@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,6 +38,21 @@ public class Post {
 	@Lob
 	@Column(name="fl_foto")
 	private byte[] foto;
+	
+	//Da classe que estamos para o relacionamento (Vários post para um usuário)
+	@ManyToOne
+	@JoinColumn(name="cd_usuario")
+	private Usuario usuario;
+	
+	public Post(String titulo, String descricao) {
+		super();
+		this.titulo = titulo;
+		this.descricao = descricao;
+	}
+
+	public Post() {
+		super();
+	}
 
 	public int getCodigo() {
 		return codigo;
@@ -75,6 +92,14 @@ public class Post {
 
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 }

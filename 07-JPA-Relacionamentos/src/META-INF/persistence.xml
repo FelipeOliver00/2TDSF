@@ -28,7 +28,7 @@
 			<property name="hibernate.show_sql" value="true" />
 			<!-- create - drop e create update - cria se necessário ou tenta ajustar 
 				as tabelas validate - só valida as classes com as tabelas -->
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.Oracle12cDialect" />
 			<property name="javax.persistence.jdbc.driver"
