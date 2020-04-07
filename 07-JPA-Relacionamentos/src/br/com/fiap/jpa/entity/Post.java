@@ -1,14 +1,19 @@
 package br.com.fiap.jpa.entity;
 
 import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,9 +45,19 @@ public class Post {
 	private byte[] foto;
 	
 	//Da classe que estamos para o relacionamento (Vários post para um usuário)
-	@ManyToOne
-	@JoinColumn(name="cd_usuario")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="cd_usuario", nullable = false)
 	private Usuario usuario;
+	
+	//Mapear o relacionamento muitos-para-muitos (tabela associativa)
+	//JoinTable configura a tabela associativa (name -> nome da tabela)
+	//joinColumns -> configura a coluna que armazena a FK da classes que estamos
+	//inverseJoinColumns -> configura a coluna que armazena a FK do outro lado da relação (patrocinio)
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "TB_POST_PATROCINIO",
+			joinColumns = @JoinColumn(name="cd_post", nullable = false),
+			inverseJoinColumns = @JoinColumn(name="cd_patrocinio", nullable = false))
+	private List<Patrocinio> patrocinios;
 	
 	public Post(String titulo, String descricao) {
 		super();
@@ -100,6 +115,14 @@ public class Post {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<Patrocinio> getPatrocinios() {
+		return patrocinios;
+	}
+
+	public void setPatrocinios(List<Patrocinio> patrocinios) {
+		this.patrocinios = patrocinios;
 	}
 	
 }

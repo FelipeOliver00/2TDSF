@@ -34,6 +34,7 @@ public class Usuario {
 	private Login login;
 	
 	//Método para adicionar post no usuário
+	//Método utilizado somente na relação OneToMany
 	public void addPost(Post post) {
 		post.setUsuario(this);
 		//adiciona o post na lista

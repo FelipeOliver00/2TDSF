@@ -1,12 +1,14 @@
 package br.com.fiap.jpa.entity;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,6 +33,22 @@ public class Patrocinio {
 	
 	@Column(name="nm_patrocinio", nullable = false, length = 100)
 	private String nome;
+
+	//Relacionamento bidirecional muitos para muitos
+	//mappedBy -> nome do atributo que mapeia a tabela associativa (na classe Post)
+	@ManyToMany(mappedBy = "patrocinios")
+	private List<Post> posts;
+	
+	public Patrocinio(double valor, Calendar data, String nome) {
+		super();
+		this.valor = valor;
+		this.data = data;
+		this.nome = nome;
+	}
+
+	public Patrocinio() {
+		super();
+	}
 
 	public int getCodigo() {
 		return codigo;
@@ -62,6 +80,14 @@ public class Patrocinio {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 	
 }
